@@ -1,4 +1,12 @@
+import os
+from google import genai
+from dotenv import load_dotenv
+
 from core import user_input, get_pdf_text, get_text_chunks, get_vector_store
+    
+# Load environment variables
+load_dotenv()
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def main():
 

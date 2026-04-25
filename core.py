@@ -1,11 +1,4 @@
-import os
-import shutil
-from dotenv import load_dotenv
-
-import streamlit as st
-
 from PyPDF2 import PdfReader
-from google import genai
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -14,10 +7,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain_classic.chains.combine_documents import (
     create_stuff_documents_chain,
 )
-
-# Load environment variables
-load_dotenv()
-client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Initialize conversation history
 conversation_history = []
@@ -102,47 +91,11 @@ def user_input(user_question):
     conversation_history_text = manage_conversation_history(simplified_question, bot_response)
     
     return bot_response
-    # Display the response
-    # st.write(bot_response)
-# TSR
+
 def simplify_question(question):
     # Basic preprocessing steps
     question = question.lower().strip()  # Lowercase and trim whitespace
     question = question.replace("please", "").replace("could you", "").replace("?", "")
     # More advanced NLP techniques could be applied here, such as paraphrasing
     return question
-
-# Main function to run the Streamlit app
-# def main():
-#     st.set_page_config(page_title="Chat PDF")
-#     st.header("Chat with PDFs")
-    
-#     with st.sidebar:
-#         st.title("Menu:")
-#         pdf_docs = st.file_uploader("Upload your PDF Files and Click on the Submit & Process Button", accept_multiple_files=True, type=["pdf"])
-        
-#         if st.button("Submit & Process"):
-            
-#             with st.spinner("Processing..."):
-#                 raw_text = get_pdf_text(pdf_docs)
-#                 text_chunks = get_text_chunks(raw_text)
-#                 get_vector_store(text_chunks)
-#                 st.success("Done")
-
-#         st.info("This app allows you to chat with PDF multiple files")
-
-#     if not pdf_docs:
-#         st.markdown("<h4>Instructions<", unsafe_allow_html=True)
-
-#         st.write("1. Upload your PDF files")
-#         st.write("2. Ask a question")
-#         st.write("3. Get an answer")
-
-#     else:
-#         user_question = st.text_input("Ask a Question from the PDF Files")
-#         if st.button("Ask"):
-#             user_input(user_question)
-
-# if __name__ == "__main__":
-#     main()
 # TSR
